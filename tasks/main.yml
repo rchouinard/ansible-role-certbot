@@ -1,0 +1,45 @@
+---
+- name: Install Packages
+  package:
+    name: certbot
+    state: present
+
+- name: Register LetsEncrypt ACME Account
+  command: "certbot register --agree-tos {% if certbot_email %}--email {{ certbot_email | quote }}{% else %}--register-unsafely-without-email{% endif %} {% if certbot_eff_email %}--eff-email{% else %}--no-eff-email{% endif %}"  # noqa 204
+  args:
+    creates: /etc/letsencrypt/accounts/acme-v02.api.letsencrypt.org
+  when: certbot_agree_tos
+
+- name: Set Pre-Hook
+  lineinfile:
+    path: /etc/sysconfig/certbot
+    regexp: '^PRE_HOOK='
+    line: PRE_HOOK="--pre-hook '{{ certbot_pre_hook }}'"
+  when: certbot_pre_hook | length > 0
+
+- name: Set Post-Hook
+  lineinfile:
+    path: /etc/sysconfig/certbot
+    regexp: '^POST_HOOK='
+    line: POST_HOOK="--pre-hook '{{ certbot_post_hook }}'"
+  when: certbot_post_hook | length > 0
+
+- name: Set Renew-Hook
+  lineinfile:
+    path: /etc/sysconfig/certbot
+    regexp: '^RENEW_HOOK='
+    line: RENEW_HOOK="--renew-hook '{{ certbot_renew_hook }}'"
+  when: certbot_renew_hook | length > 0
+
+- name: Set Renewal Arguments
+  lineinfile:
+    path: /etc/sysconfig/certbot
+    regexp: '^CERTBOT_ARGS='
+    line: CERTBOT_ARGS="{{ certbot_args }}"
+  when: certbot_args | length > 0
+
+- name: Enable Renewal Timer
+  service:
+    name: certbot-renew.timer
+    enabled: yes
+  when: certbot_enable_timer

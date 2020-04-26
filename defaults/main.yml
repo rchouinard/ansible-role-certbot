@@ -1,0 +1,17 @@
+---
+# Registration options
+#
+# If email is left blank and TOS is accepted,
+# account will be registered using --register-unsafely-without-email
+certbot_email: ~
+certbot_agree_tos: false
+certbot_eff_email: false
+
+# Renewal options
+certbot_pre_hook: ""
+certbot_post_hook: ""
+certbot_deploy_hook: ""
+certbot_args: ""
+
+# Enable auto-renewal system timer?
+certbot_enable_timer: true

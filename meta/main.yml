@@ -1,0 +1,23 @@
+---
+galaxy_info:
+  author: rchouinard
+  description: Certbot for RedHat/Fedora Linux
+  role_name: certbot
+  license: MIT
+  min_ansible_version: 2.6
+  platforms:
+  - name: Fedora
+    versions:
+    - 31
+    - 30
+    - 29
+  - name: EL
+    versions:
+    - 8
+    - 7
+  galaxy_tags:
+  - certbot
+  - letsencrypt
+  - tls
+  - ssl
+  dependencies: []
