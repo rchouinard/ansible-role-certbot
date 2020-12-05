@@ -21,7 +21,7 @@
   lineinfile:
     path: /etc/sysconfig/certbot
     regexp: '^POST_HOOK='
-    line: POST_HOOK="--pre-hook '{{ certbot_post_hook }}'"
+    line: POST_HOOK="--post-hook '{{ certbot_post_hook }}'"
   when: certbot_post_hook | length > 0
 
 - name: Set Deploy Hook
