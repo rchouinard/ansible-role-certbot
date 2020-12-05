@@ -28,7 +28,7 @@
   lineinfile:
     path: /etc/sysconfig/certbot
     regexp: '^DEPLOY_HOOK='
-    line: DEPLOY_HOOK="--renew-hook '{{ certbot_deploy_hook }}'"
+    line: DEPLOY_HOOK="--deploy-hook '{{ certbot_deploy_hook }}'"
   when: certbot_deploy_hook | length > 0
 
 - name: Set Renewal Arguments
